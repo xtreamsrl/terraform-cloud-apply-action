@@ -44,7 +44,8 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const rawVariables = core.getMultilineInput('tfVars');
-            core.debug(rawVariables.toString()); // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+            core.info('Variables:');
+            core.info(rawVariables.toString()); // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
             core.setOutput('time', new Date().toTimeString());
         }
         catch (error) {
