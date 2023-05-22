@@ -1,16 +1,40 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import Terraform from './terraform'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+    const token = core.getInput('tfToken')
+    const org = core.getInput('tfOrg')
+    const workspace = core.getInput('tfWorkspace')
+    const filePath = core.getInput('filePath')
+    const identifier = core.getInput('identifier')
+    const rawVariables: string[] = core.getMultilineInput('tfVars')
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    const processedVars = rawVariables.map(item => {
+      const [key, value] = item.split('=')
+      return {key, value: `"${value}"`} // TODO: this only works for strings
+    })
+    core.info('Variables:')
+    core.info(JSON.stringify(rawVariables))
+    core.info(JSON.stringify(processedVars))
 
-    core.setOutput('time', new Date().toTimeString())
+    const tf = new Terraform(
+      token,
+      org,
+      `app.terraform.io`,
+      true,
+      10,
+      30 * 1000
+    )
+
+    const {runId, status} = await tf.run(
+      workspace,
+      filePath,
+      identifier,
+      processedVars
+    )
+    core.setOutput('runId', runId)
+    core.setOutput('status', status)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }

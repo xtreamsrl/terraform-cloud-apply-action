@@ -1,11 +1,26 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'TFC apply action'
+description: 'Submit a run to Terraform Cloud.'
+author: 'xtreamsrl'
 inputs:
-  milliseconds: # change this
+  tfToken:
+    description: 'Terraform Cloud Token.'
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+  tfOrg:
+    description: 'Terraform Cloud Organization.'
+    required: true
+  tfWorkspace:
+    description: Terraform Cloud Workspace.'
+    required: true
+  filePath:
+    description: 'Archive (.tar.gz) to submit.'
+    required: true
+  identifier:
+    description: 'Unique identifier for workflow (e.g. Git SHA)'
+    required: true
+  tfVars:
+    description: 'Terraform variables'
+    required: false
+
 runs:
   using: 'node16'
   main: 'dist/index.js'
