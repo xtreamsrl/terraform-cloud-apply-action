@@ -58,7 +58,6 @@ function run() {
                 return { key, value: `"${value}"` }; // TODO: this only works for strings
             });
             core.info('Variables:');
-            core.info(JSON.stringify(rawVariables));
             core.info(JSON.stringify(processedVars));
             const tf = new terraform_1.default(token, org, `app.terraform.io`, true, 10, 30 * 1000);
             const { runId, status } = yield tf.run(workspace, filePath, identifier, processedVars);

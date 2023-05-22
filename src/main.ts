@@ -15,7 +15,6 @@ async function run(): Promise<void> {
       return {key, value: `"${value}"`} // TODO: this only works for strings
     })
     core.info('Variables:')
-    core.info(JSON.stringify(rawVariables))
     core.info(JSON.stringify(processedVars))
 
     const tf = new Terraform(
