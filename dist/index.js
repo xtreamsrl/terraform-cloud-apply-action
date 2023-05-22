@@ -352,13 +352,16 @@ class Terraform {
                 for (let i = 0; i < this.retryLimit; i++) {
                     const status = yield this._getStatus(runId);
                     if (status === 'planned_and_finished' || status === 'applied') {
+                        core.info(`Status is ${JSON.stringify(status)}. Proceed.`);
                         return status;
                     }
-                    if (i === this.retryLimit - 1) {
-                        throw new Error(`Run status was ${JSON.stringify(status)}`);
+                    if (status === 'discarded') {
+                        throw new Error(`Run was discarded.`);
                     }
-                    this.debug &&
-                        core.info(`Plan not finished/applied. Will now sleep for ${this.pollInterval}`);
+                    if (i === this.retryLimit - 1) {
+                        throw new Error(`Timed out. Last run status was ${JSON.stringify(status)}`);
+                    }
+                    core.info(`Plan not finished/applied. Will now sleep for ${this.pollInterval}`);
                     yield this._sleep(this.pollInterval);
                 }
             }
