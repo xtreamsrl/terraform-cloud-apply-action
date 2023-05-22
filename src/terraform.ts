@@ -289,6 +289,9 @@ export default class Terraform {
         if (status === 'discarded') {
           throw new Error(`Run was discarded.`)
         }
+        if (status === 'errored') {
+          throw new Error(`Run failed!.`)
+        }
         if (i === this.retryLimit - 1) {
           throw new Error(
             `Timed out. Last run status was ${JSON.stringify(status)}`
@@ -300,6 +303,7 @@ export default class Terraform {
         await this._sleep(this.pollInterval)
       }
     } catch (err) {
+      core.error(`Error requesting run status. ${(err as Error).message}`)
       throw new Error(
         `Error requesting run status. ${
           (err as Error).message

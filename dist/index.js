@@ -358,6 +358,9 @@ class Terraform {
                     if (status === 'discarded') {
                         throw new Error(`Run was discarded.`);
                     }
+                    if (status === 'errored') {
+                        throw new Error(`Run failed!.`);
+                    }
                     if (i === this.retryLimit - 1) {
                         throw new Error(`Timed out. Last run status was ${JSON.stringify(status)}`);
                     }
@@ -366,6 +369,7 @@ class Terraform {
                 }
             }
             catch (err) {
+                core.error(`Error requesting run status. ${err.message}`);
                 throw new Error(`Error requesting run status. ${err.message}\n${JSON.stringify(err)}`);
             }
         });
