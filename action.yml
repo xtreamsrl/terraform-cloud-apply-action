@@ -2,33 +2,21 @@ name: 'TFC apply action'
 description: 'Submit a run to Terraform Cloud.'
 author: 'xtreamsrl'
 inputs:
-#  tfToken:
-#    description: 'Terraform Cloud Token.'
-#    required: true
-#  tfOrg:
-#    description: 'Terraform Cloud Organization.'
-#    required: true
-#  tfWorkspace:
-#    description: Terraform Cloud Workspace.'
-#    required: true
-#  filePath:
-#    description: 'Archive (.tar.gz) to submit.'
-#    required: true
-#  identifier:
-#    description: 'Unique identifier for workflow (e.g. Git SHA)'
-#    required: true
-#  awaitApply:
-#    description: 'Wait for apply to complete.'
-#    required: false
-#    default: "false"
-#  awaitInterval:
-#    description: 'Duration to wait between subsequent status requests (seconds).'
-#    required: false
-#    default: "60"
-#  retryLimit:
-#    description: 'Number of times to retry Terraform Cloud API requests.'
-#    required: false
-#    default: "5"
+  tfToken:
+    description: 'Terraform Cloud Token.'
+    required: true
+  tfOrg:
+    description: 'Terraform Cloud Organization.'
+    required: true
+  tfWorkspace:
+    description: Terraform Cloud Workspace.'
+    required: true
+  filePath:
+    description: 'Archive (.tar.gz) to submit.'
+    required: true
+  identifier:
+    description: 'Unique identifier for workflow (e.g. Git SHA)'
+    required: true
   tfVars:
     description: 'Terraform variables'
     required: false
